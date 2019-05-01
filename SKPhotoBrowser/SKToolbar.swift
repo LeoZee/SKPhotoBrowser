@@ -28,7 +28,6 @@ class SKToolbar: UIToolbar {
 		self.browser = browser
 		
 		setupApperance()
-		setupToolbar()
 	}
 	
 	override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -49,7 +48,7 @@ extension SKToolbar {
 		setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
 	}
 	
-	open func setupToolbar() {
+	func setupToolbar() {
 		toolActionButton = setupActionButton()
 		
 		var items = [UIBarButtonItem]()
