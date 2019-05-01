@@ -12,68 +12,56 @@ import Foundation
 private let bundle = Bundle(for: SKPhotoBrowser.self)
 
 class SKToolbar: UIToolbar {
-    var toolActionButton: UIBarButtonItem!
-    fileprivate weak var browser: SKPhotoBrowser?
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
+	var toolActionButton: UIBarButtonItem!
+	fileprivate weak var browser: SKPhotoBrowser?
+	
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
+	
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+	}
 	
 	convenience init(frame: CGRect, browser: SKPhotoBrowser) {
 		self.init(frame: frame)
 		self.browser = browser
+		
 		setupApperance()
 		setupToolbar()
 	}
-    
-	convenience init(frame: CGRect, browser: SKPhotoBrowser, barButton: UIBarButtonItem) {
-        self.init(frame: frame)
-        self.browser = browser
-        toolActionButton = barButton
-        setupApperance()
-        setupToolbar()
-    }
-    
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let view = super.hitTest(point, with: event) {
-            if SKMesurement.screenWidth - point.x < 50 { // FIXME: not good idea
-                return view
-            }
-        }
-        return nil
-    }
+	
+	override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+		if let view = super.hitTest(point, with: event) {
+			if SKMesurement.screenWidth - point.x < 50 { // FIXME: not good idea
+				return view
+			}
+		}
+		return nil
+	}
 }
 
-private extension SKToolbar {
-    func setupApperance() {
-        backgroundColor = .clear
-        clipsToBounds = true
-        isTranslucent = true
-        setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
-    }
-    
-    func setupToolbar() {
-		if toolActionButton == nil {
-			toolActionButton = UIBarButtonItem(barButtonSystemItem: .action, target: browser, action: #selector(SKPhotoBrowser.actionButtonPressed))
-		} else {
-			toolActionButton.target = browser
-			toolActionButton.action = #selector(SKPhotoBrowser.actionButtonPressed)
+extension SKToolbar {
+	func setupApperance() {
+		backgroundColor = .clear
+		clipsToBounds = true
+		isTranslucent = true
+		setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
+	}
+	
+	open func setupToolbar() {
+		toolActionButton = setupActionButton()
+		
+		var items = [UIBarButtonItem]()
+		items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
+		if SKPhotoBrowserOptions.displayAction {
+			items.append(toolActionButton)
 		}
-        toolActionButton.tintColor = UIColor.white
-        
-        var items = [UIBarButtonItem]()
-        items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
-        if SKPhotoBrowserOptions.displayAction {
-            items.append(toolActionButton)
-        }
-        setItems(items, animated: false)
-    }
-    
-    func setupActionButton() {
-    }
+		setItems(items, animated: false)
+	}
+	
+	open func setupActionButton() -> UIBarButtonItem {
+		return UIBarButtonItem()
+	}
 }
 

@@ -536,8 +536,8 @@ internal extension SKPhotoBrowser {
     }
 }
 
-// MARK: - Private Function
-private extension SKPhotoBrowser {
+// MARK: - Function
+extension SKPhotoBrowser {
     func configureAppearance() {
         view.backgroundColor = bgColor
         view.clipsToBounds = true
@@ -575,12 +575,8 @@ private extension SKPhotoBrowser {
         view.addSubview(paginationView)
     }
     
-    func configureToolbar() {
-		if let barButton = optionBarButton {
-			toolbar = SKToolbar(frame: frameForToolbarAtOrientation(), browser: self, barButton: barButton)
-		} else {
-			toolbar = SKToolbar(frame: frameForToolbarAtOrientation(), browser: self)
-		}
+    open func configureToolbar() {
+		toolbar = SKToolbar(frame: frameForToolbarAtOrientation(), browser: self)
 		view.addSubview(toolbar)
     }
 
