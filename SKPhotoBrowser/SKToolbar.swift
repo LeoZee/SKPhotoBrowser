@@ -22,11 +22,18 @@ class SKToolbar: UIToolbar {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
+	
+	convenience init(frame: CGRect, browser: SKPhotoBrowser) {
+		self.init(frame: frame)
+		self.browser = browser
+		setupApperance()
+		setupToolbar()
+	}
     
-    convenience init(frame: CGRect, browser: SKPhotoBrowser) {
+	convenience init(frame: CGRect, browser: SKPhotoBrowser, barButton: UIBarButtonItem) {
         self.init(frame: frame)
         self.browser = browser
-        
+        toolActionButton = barButton
         setupApperance()
         setupToolbar()
     }
@@ -50,7 +57,12 @@ private extension SKToolbar {
     }
     
     func setupToolbar() {
-        toolActionButton = UIBarButtonItem(barButtonSystemItem: .action, target: browser, action: #selector(SKPhotoBrowser.actionButtonPressed))
+		if toolActionButton == nil {
+			toolActionButton = UIBarButtonItem(barButtonSystemItem: .action, target: browser, action: #selector(SKPhotoBrowser.actionButtonPressed))
+		} else {
+			toolActionButton.target = browser
+			toolActionButton.action = #selector(SKPhotoBrowser.actionButtonPressed)
+		}
         toolActionButton.tintColor = UIColor.white
         
         var items = [UIBarButtonItem]()

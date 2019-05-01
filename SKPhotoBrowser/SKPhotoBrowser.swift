@@ -17,6 +17,7 @@ open class SKPhotoBrowser: UIViewController {
     open var initPageIndex: Int = 0
     open var activityItemProvider: UIActivityItemProvider?
     open var photos: [SKPhotoProtocol] = []
+	open var optionBarButton: UIBarButtonItem?
     
     internal lazy var pagingScrollView: SKPagingScrollView = SKPagingScrollView(frame: self.view.frame, browser: self)
     
@@ -574,8 +575,12 @@ private extension SKPhotoBrowser {
     }
     
     func configureToolbar() {
-        toolbar = SKToolbar(frame: frameForToolbarAtOrientation(), browser: self)
-        view.addSubview(toolbar)
+		if let barButton = optionBarButton {
+			toolbar = SKToolbar(frame: frameForToolbarAtOrientation(), browser: self, barButton: barButton)
+		} else {
+			toolbar = SKToolbar(frame: frameForToolbarAtOrientation(), browser: self)
+		}
+		view.addSubview(toolbar)
     }
 
     func setControlsHidden(_ hidden: Bool, animated: Bool, permanent: Bool) {
