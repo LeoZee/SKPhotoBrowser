@@ -67,8 +67,8 @@ open class SKPhotoBrowser: UIViewController {
         setup()
     }
     
-    public convenience init(photos: [SKPhotoProtocol]) {
-        self.init(photos: photos, initialPageIndex: 0)
+	public convenience init(photos: [SKPhotoProtocol], optionButton: UIBarButtonItem? = nil) {
+        self.init(photos: photos, initialPageIndex: 0, optionButton: optionButton)
     }
     
     @available(*, deprecated)
@@ -80,12 +80,13 @@ open class SKPhotoBrowser: UIViewController {
         animator.senderViewForAnimation = animatedFromView
     }
     
-    public convenience init(photos: [SKPhotoProtocol], initialPageIndex: Int) {
+    public convenience init(photos: [SKPhotoProtocol], initialPageIndex: Int, optionButton: UIBarButtonItem? = nil) {
         self.init(nibName: nil, bundle: nil)
         self.photos = photos
         self.photos.forEach { $0.checkCache() }
         self.currentPageIndex = min(initialPageIndex, photos.count - 1)
         self.initPageIndex = self.currentPageIndex
+		self.optionBarButton = optionButton
         animator.senderOriginImage = photos[currentPageIndex].underlyingImage
         animator.senderViewForAnimation = photos[currentPageIndex] as? UIView
     }
