@@ -296,7 +296,7 @@ open class SKPhotoBrowser: UIViewController {
 				
 				if let popoverController = actionSheetController.popoverPresentationController {
 					popoverController.sourceView = self.view
-					popoverController.barButtonItem = toolbar.toolActionButton
+					popoverController.sourceRect = CGRect(x: toolbar.frame.maxX - 70, y: toolbar.frame.minY, width: 70, height: 50)
 				}
 				
 				present(actionSheetController, animated: true, completion: { () -> Void in
